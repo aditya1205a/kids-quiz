@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fun Kids Quiz</title>
+<style>
+    body { font-family: 'Comic Sans MS', cursive, sans-serif; background: #f0f8ff; padding: 20px; }
+    h1 { text-align: center; color: #ff4500; }
+    .question-box { padding: 15px; border-radius: 10px; margin: 10px 0; }
+    .math { background-color: #d0e7ff; }
+    .english { background-color: #d0ffd6; }
+    .time { background-color: #fffacd; }
+    .measurement { background-color: #ffe4b5; }
+    .correct { color: green; font-weight: bold; }
+    .incorrect { color: red; font-weight: bold; }
+    button { padding: 10px 20px; font-size: 18px; background-color: #ff69b4; color: white; border: none; border-radius: 5px; cursor: pointer; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function(){ emailjs.init("k-fel7IOR12ppDslo"); })();
+
+const quizData = [
+  { type: "math", question: "27 + 36 = ?", answer: "63" },
+  { type: "english", question: "Spell the word for 'a young cat'", answer: "kitten" },
+  { type: "time", question: "If it's 3:45 PM, what time will it be in 20 minutes?", answer: "4:05 PM" },
+  { type: "measurement", question: "How many millimeters in 1 meter?", answer: "1000" },
+  { type: "math", question: "Round 1,347 to the nearest 100", answer: "1300" }
+];
+
+function loadQuiz(){
+    const container = document.getElementById("quiz");
+    quizData.forEach((q, index) => {
+        container.innerHTML += `
+            <div class="question-box ${q.type}">
+                <p><b>Q${index+1}:</b> ${q.question}</p>
+                <input type="text" id="q${index}" placeholder="Your answer">
+                <span id="result${index}"></span>
+            </div>
+        `;
+    });
+}
+
+function submitQuiz(){
+    let results = "";
+    quizData.forEach((q, index) => {
+        const userAns = document.getElementById(`q${index}`).value.trim();
+        const resultSpan = document.getElementById(`result${index}`);
+        if(userAns.toLowerCase() === q.answer.toLowerCase()){
+            resultSpan.innerHTML = " ✅ Correct";
+            resultSpan.className = "correct";
+        } else {
+            resultSpan.innerHTML = ` ❌ Incorrect (Correct: ${q.answer})`;
+            resultSpan.className = "incorrect";
+        }
+        results += `Q${index+1}: ${q.question} - Your answer: ${userAns} - Correct: ${q.answer}\n`;
+    });
+
+    emailjs.send("service_mvgtdzj", "template_e6smd0o", {
+        name: "Child Quiz Submission",
+        email: "aditya1205@gmail.com",
+        title: "Quiz Answers",
+        message: results
+    }).then(() => {
+        alert("Quiz submitted! Results have been emailed.");
+    });
+}
+</script>
+</head>
+<body onload="loadQuiz()">
+<h1>🎯 Fun Kids Quiz 🎯</h1>
+<div id="quiz"></div>
+<br>
+<center><button onclick="submitQuiz()">Submit Quiz</button></center>
+</body>
+</html>
