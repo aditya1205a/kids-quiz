@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌟 Fun Daily Quiz 🌟</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>🎉 Daily Quiz Adventure! 🎉</h1>
+    <p>Hi! Answer these 10 fun questions today! 🚀</p>
+    <form id="quiz-form">
+      <div id="questions"></div>
+      <button type="submit">Submit Answers! 🥳</button>
+    </form>
+    <div id="result" style="display: none;">🎈 Great job! Your answers have been sent! 🎈</div>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    (function() {
+      emailjs.init("k-fel7IOR12ppDslo");
+    })();
+  </script>
+</body>
+</html>
